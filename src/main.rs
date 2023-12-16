@@ -6,7 +6,6 @@ fn main() {
     println!("Adivinhe o número!");
 
     let numero_secreto = rand::thread_rng().gen_range(1..101);
-    println!("Numero secreto {}", numero_secreto);
 
     loop {
         println!("Digite seu palpite");
@@ -15,7 +14,11 @@ fn main() {
         io::stdin().read_line(&mut palpite)
             .expect("Falha ao ler entrada");
 
-        let palpite: u32 = palpite.trim().parse().expect("Por favor digite um numero!");
+        let palpite: u32 = match palpite.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue
+        };
+
         println!("Você disse: {}", palpite);
 
         match palpite.cmp(&numero_secreto) {
